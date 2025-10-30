@@ -10,12 +10,15 @@ export const Hero = () => {
 
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      {/* Imagem de fundo */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ 
-          backgroundImage: `linear-gradient(to right, rgba(33, 150, 243, 0.95), rgba(33, 150, 243, 0.7)), url(${heroImage})` 
+          backgroundImage: `url(${heroImage})` 
         }}
       />
+      {/* Camada escura por cima */}
+      <div className="absolute inset-0 bg-black/60" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl">

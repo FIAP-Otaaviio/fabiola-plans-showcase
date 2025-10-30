@@ -1,24 +1,27 @@
 import { Card } from "@/components/ui/card";
-import { Star } from "lucide-react";
+import { CheckCircle, Users, TrendingUp } from "lucide-react";
 
-const testimonials = [
+const cases = [
   {
-    name: "Maria Silva",
-    role: "Cliente desde 2021",
-    content: "A Fabíola me ajudou a encontrar o plano perfeito para minha família. O atendimento é sempre atencioso e ela está sempre disponível para esclarecer dúvidas.",
-    rating: 5
+    icon: Users,
+    title: "Família Silva",
+    result: "Economia de 30%",
+    description: "Conseguimos migrar a família Silva para um plano mais completo com 30% de economia mensal. Todos os membros agora têm acesso a uma rede credenciada ampliada.",
+    metrics: "5 pessoas | Plano Familiar"
   },
   {
-    name: "João Santos",
-    role: "Empresário",
-    content: "Contrarei um plano empresarial através da Fabíola e o processo foi extremamente simples. Ela cuidou de tudo e conseguiu um preço excelente para minha equipe.",
-    rating: 5
+    icon: TrendingUp,
+    title: "Empresa XYZ Tech",
+    result: "100% de adesão",
+    description: "Implementamos plano empresarial para 50 colaboradores com cobertura nacional. A satisfação da equipe aumentou significativamente.",
+    metrics: "50 vidas | Plano Empresarial"
   },
   {
-    name: "Ana Rodrigues",
-    role: "Aposentada",
-    content: "Estava procurando um plano adequado para minha idade e a Fabíola me apresentou opções perfeitas. Hoje tenho tranquilidade com minha saúde.",
-    rating: 5
+    icon: CheckCircle,
+    title: "Maria Aposentada",
+    result: "Cobertura completa",
+    description: "Encontramos um plano sênior ideal com coparticipação reduzida e acesso aos melhores hospitais da região.",
+    metrics: "Plano Individual Senior"
   }
 ];
 
@@ -28,33 +31,46 @@ export const Testimonials = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            O que dizem nossos clientes
+            Cases de Sucesso
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            A satisfação de quem confia no nosso trabalho é nossa maior conquista.
+            Histórias reais de quem transformou sua experiência com planos de saúde
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <Card 
-              key={index}
-              className="p-6 hover:shadow-xl transition-shadow duration-300 bg-card border-border"
-            >
-              <div className="flex gap-1 mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-secondary text-secondary" />
-                ))}
-              </div>
-              <p className="text-muted-foreground mb-6 italic">
-                "{testimonial.content}"
-              </p>
-              <div>
-                <p className="font-semibold text-card-foreground">{testimonial.name}</p>
-                <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-              </div>
-            </Card>
-          ))}
+          {cases.map((caseItem, index) => {
+            const Icon = caseItem.icon;
+            return (
+              <Card 
+                key={index}
+                className="p-8 hover:shadow-xl transition-all duration-300 bg-card border-border hover:border-primary/50"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <Icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <span className="px-3 py-1 bg-secondary/20 text-secondary-foreground text-sm font-semibold rounded-full">
+                    {caseItem.result}
+                  </span>
+                </div>
+                
+                <h3 className="text-xl font-bold text-card-foreground mb-3">
+                  {caseItem.title}
+                </h3>
+                
+                <p className="text-muted-foreground mb-4">
+                  {caseItem.description}
+                </p>
+                
+                <div className="pt-4 border-t border-border">
+                  <p className="text-sm font-medium text-primary">
+                    {caseItem.metrics}
+                  </p>
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </section>

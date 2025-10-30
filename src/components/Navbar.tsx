@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,8 +15,8 @@ export const Navbar = () => {
   const menuItems = [
     { label: "Início", id: "inicio" },
     { label: "Sobre", id: "sobre" },
-    { label: "Serviços", id: "servicos" },
-    { label: "Depoimentos", id: "depoimentos" },
+    { label: "Planos", id: "servicos" },
+    { label: "Cases", id: "depoimentos" },
     { label: "Contato", id: "contato" },
   ];
 
@@ -23,6 +24,7 @@ export const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 bg-card/95 backdrop-blur-sm shadow-sm z-50 border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
+          {/* Logo à esquerda */}
           <button 
             onClick={() => scrollToSection("inicio")}
             className="text-2xl font-bold text-primary hover:opacity-80 transition-opacity"
@@ -30,8 +32,8 @@ export const Navbar = () => {
             Fabíola
           </button>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-6">
+          {/* Menu centralizado - Desktop */}
+          <div className="hidden lg:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
             {menuItems.map((item) => (
               <button
                 key={item.id}
@@ -41,9 +43,15 @@ export const Navbar = () => {
                 {item.label}
               </button>
             ))}
-            <Button onClick={() => scrollToSection("contato")}>
-              Fale Conosco
-            </Button>
+          </div>
+
+          {/* Botão de cotação à direita - Desktop */}
+          <div className="hidden md:block">
+            <Link to="/cotacao">
+              <Button>
+                Solicitar Cotação
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -68,9 +76,11 @@ export const Navbar = () => {
                   {item.label}
                 </button>
               ))}
-              <Button onClick={() => scrollToSection("contato")} className="w-full">
-                Fale Conosco
-              </Button>
+              <Link to="/cotacao" onClick={() => setIsMenuOpen(false)}>
+                <Button className="w-full">
+                  Solicitar Cotação
+                </Button>
+              </Link>
             </div>
           </div>
         )}
