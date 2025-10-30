@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { CheckCircle, Users, TrendingUp } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const cases = [
   {
@@ -26,8 +27,10 @@ const cases = [
 ];
 
 export const Testimonials = () => {
+  const { elementRef, isVisible } = useScrollAnimation();
+  
   return (
-    <section id="depoimentos" className="py-20 bg-background">
+    <section id="depoimentos" className="py-20 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -38,13 +41,19 @@ export const Testimonials = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div 
+          ref={elementRef}
+          className={`grid md:grid-cols-3 gap-8 transition-all duration-700 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           {cases.map((caseItem, index) => {
             const Icon = caseItem.icon;
             return (
               <Card 
                 key={index}
-                className="p-8 hover:shadow-xl transition-all duration-300 bg-card border-border hover:border-primary/50"
+                className="p-8 glass-card hover:shadow-xl hover:scale-105 transition-all duration-300"
+                style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-3 bg-primary/10 rounded-lg">

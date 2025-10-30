@@ -1,6 +1,7 @@
 import { Shield, Users, Briefcase, Baby } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import servicesImage from "@/assets/services-image.jpg";
 
 const plans = [
@@ -31,13 +32,15 @@ const plans = [
 ];
 
 export const Services = () => {
+  const { elementRef, isVisible } = useScrollAnimation();
+  
   const scrollToContact = () => {
     const element = document.getElementById("contato");
     element?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section id="servicos" className="py-20 bg-muted/30">
+    <section id="servicos" className="py-20 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -48,11 +51,17 @@ export const Services = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div 
+          ref={elementRef}
+          className={`grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 transition-all duration-700 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           {plans.map((plan, index) => (
             <Card 
               key={index}
-              className="p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card border-border"
+              className="p-6 glass-card hover:shadow-xl transition-all duration-300 hover:-translate-y-2 hover:scale-105"
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
               <div className="bg-secondary/10 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                 <plan.icon className="h-7 w-7 text-secondary" />

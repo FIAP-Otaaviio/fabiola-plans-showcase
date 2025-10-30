@@ -1,5 +1,6 @@
 import { Heart, Award, Users, Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const features = [
   {
@@ -25,6 +26,8 @@ const features = [
 ];
 
 export const About = () => {
+  const { elementRef, isVisible } = useScrollAnimation();
+  
   return (
     <section id="sobre" className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -37,11 +40,17 @@ export const About = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div 
+          ref={elementRef}
+          className={`grid md:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-700 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           {features.map((feature, index) => (
             <Card 
               key={index}
-              className="p-6 hover:shadow-lg transition-shadow duration-300 bg-card border-border"
+              className="p-6 glass-card hover:shadow-xl hover:scale-105 transition-all duration-300"
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
               <div className="bg-primary/10 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                 <feature.icon className="h-7 w-7 text-primary" />
