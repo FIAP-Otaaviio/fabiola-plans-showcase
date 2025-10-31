@@ -1,8 +1,75 @@
-import { Shield, Users, Briefcase, Baby } from "lucide-react";
+import { Shield, Users, Briefcase, Baby, Plus, Heart, Cross, Activity, Stethoscope } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import servicesImage from "@/assets/services-image.jpg";
+import { useEffect, useRef, useState } from "react";
+
+const partners = [
+  { name: "Unimed", icon: Plus, color: "text-green-600" },
+  { name: "Bradesco Saúde", icon: Shield, color: "text-red-600" },
+  { name: "Amil", icon: Heart, color: "text-blue-600" },
+  { name: "SulAmérica", icon: Activity, color: "text-orange-600" },
+  { name: "NotreDame Intermédica", icon: Cross, color: "text-purple-600" },
+  { name: "Hapvida", icon: Stethoscope, color: "text-emerald-600" },
+];
+
+const PartnersScroll = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!scrollRef.current) return;
+      
+      const element = scrollRef.current;
+      const rect = element.getBoundingClientRect();
+      const elementTop = rect.top;
+      const elementHeight = rect.height;
+      const windowHeight = window.innerHeight;
+      
+      if (elementTop < windowHeight && elementTop + elementHeight > 0) {
+        const scrolled = (windowHeight - elementTop) / (windowHeight + elementHeight);
+        const progress = Math.max(0, Math.min(1, scrolled));
+        setScrollProgress(progress);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const duplicatedPartners = [...partners, ...partners];
+
+  return (
+    <div ref={scrollRef} className="relative overflow-hidden py-8">
+      <div 
+        className="flex gap-6 transition-transform duration-300 ease-out"
+        style={{ 
+          transform: `translateX(-${scrollProgress * 50}%)`,
+        }}
+      >
+        {duplicatedPartners.map((partner, index) => {
+          const Icon = partner.icon;
+          return (
+            <div
+              key={index}
+              className="flex-shrink-0 w-48 flex flex-col items-center justify-center p-6 glass-card rounded-xl hover:shadow-xl hover:scale-105 transition-all duration-300"
+            >
+              <div className={`text-5xl mb-3 ${partner.color} transition-transform duration-300 hover:scale-110`}>
+                <Icon className="w-12 h-12" strokeWidth={1.5} />
+              </div>
+              <p className="text-sm font-bold text-card-foreground text-center">
+                {partner.name}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 const plans = [
   {
@@ -92,30 +159,19 @@ export const Services = () => {
         </div>
 
         <div className="bg-card rounded-2xl overflow-hidden shadow-lg">
-          <div className="grid md:grid-cols-2 gap-0">
-            <div className="p-8 md:p-12 flex flex-col justify-center">
-              <h3 className="text-3xl font-bold text-card-foreground mb-4">
-                Operadoras Parceiras
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                Trabalhamos com as principais operadoras de saúde do Brasil, garantindo que você tenha acesso à melhor rede credenciada e aos serviços mais completos do mercado.
-              </p>
-              <ul className="space-y-3 mb-6">
-                {["Amil", "Bradesco Saúde", "SulAmérica", "Unimed", "Porto Seguro", "Notre Dame Intermédica"].map((operadora, idx) => (
-                  <li key={idx} className="flex items-center text-card-foreground font-medium">
-                    <span className="text-primary mr-3">✓</span>
-                    {operadora}
-                  </li>
-                ))}
-              </ul>
+          <div className="p-8 md:p-12">
+            <h3 className="text-3xl font-bold text-card-foreground mb-4 text-center">
+              Operadoras Parceiras
+            </h3>
+            <p className="text-muted-foreground mb-8 text-center max-w-2xl mx-auto">
+              Trabalhamos com as principais operadoras de saúde do Brasil, garantindo que você tenha acesso à melhor rede credenciada e aos serviços mais completos do mercado.
+            </p>
+            <PartnersScroll />
+            <div className="text-center mt-8">
               <Button onClick={scrollToContact} size="lg">
                 Fale Conosco
               </Button>
             </div>
-            <div 
-              className="h-64 md:h-full bg-cover bg-center"
-              style={{ backgroundImage: `url(${servicesImage})` }}
-            />
           </div>
         </div>
       </div>
