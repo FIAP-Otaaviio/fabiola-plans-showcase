@@ -1,4 +1,4 @@
-import { Shield, Users, Briefcase, Baby, Plus, Heart, Cross, Activity, Stethoscope } from "lucide-react";
+import { Shield, Users, Briefcase, Baby, Plus, Heart, Cross, Activity, Stethoscope, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
@@ -15,7 +15,10 @@ const partners = [
 
 const PartnersScroll = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,32 +43,107 @@ const PartnersScroll = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const updateScrollButtons = () => {
+    if (!containerRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+  };
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (!containerRef.current) return;
+    const scrollAmount = 300;
+    containerRef.current.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth'
+    });
+    setTimeout(updateScrollButtons, 300);
+  };
+
+  useEffect(() => {
+    updateScrollButtons();
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('scroll', updateScrollButtons);
+      return () => container.removeEventListener('scroll', updateScrollButtons);
+    }
+  }, []);
+
   const duplicatedPartners = [...partners, ...partners];
 
   return (
-    <div ref={scrollRef} className="relative overflow-hidden py-8">
-      <div 
-        className="flex gap-6 transition-transform duration-300 ease-out"
-        style={{ 
-          transform: `translateX(-${scrollProgress * 50}%)`,
-        }}
+    <div ref={scrollRef} className="relative py-8">
+      {/* Botões de navegação - visíveis apenas no mobile */}
+      <Button
+        variant="outline"
+        size="icon"
+        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 md:hidden bg-background/80 backdrop-blur-sm"
+        onClick={() => scroll('left')}
+        disabled={!canScrollLeft}
       >
-        {duplicatedPartners.map((partner, index) => {
-          const Icon = partner.icon;
-          return (
-            <div
-              key={index}
-              className="flex-shrink-0 w-48 flex flex-col items-center justify-center p-6 glass-card rounded-xl hover:shadow-xl hover:scale-105 transition-all duration-300"
-            >
-              <div className={`text-5xl mb-3 ${partner.color} transition-transform duration-300 hover:scale-110`}>
-                <Icon className="w-12 h-12" strokeWidth={1.5} />
+        <ChevronLeft className="h-4 w-4" />
+      </Button>
+      <Button
+        variant="outline"
+        size="icon"
+        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 md:hidden bg-background/80 backdrop-blur-sm"
+        onClick={() => scroll('right')}
+        disabled={!canScrollRight}
+      >
+        <ChevronRight className="h-4 w-4" />
+      </Button>
+
+      {/* Desktop: scroll com movimento da página */}
+      <div className="hidden md:block overflow-hidden">
+        <div 
+          className="flex gap-6 transition-transform duration-300 ease-out"
+          style={{ 
+            transform: `translateX(-${scrollProgress * 50}%)`,
+          }}
+        >
+          {duplicatedPartners.map((partner, index) => {
+            const Icon = partner.icon;
+            return (
+              <div
+                key={index}
+                className="flex-shrink-0 w-48 flex flex-col items-center justify-center p-6 glass-card rounded-xl hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <div className={`text-5xl mb-3 ${partner.color} transition-transform duration-300 hover:scale-110`}>
+                  <Icon className="w-12 h-12" strokeWidth={1.5} />
+                </div>
+                <p className="text-sm font-bold text-card-foreground text-center">
+                  {partner.name}
+                </p>
               </div>
-              <p className="text-sm font-bold text-card-foreground text-center">
-                {partner.name}
-              </p>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Mobile: scroll manual com setas */}
+      <div 
+        ref={containerRef}
+        className="md:hidden overflow-x-auto scrollbar-hide px-4"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        <div className="flex gap-6">
+          {duplicatedPartners.map((partner, index) => {
+            const Icon = partner.icon;
+            return (
+              <div
+                key={index}
+                className="flex-shrink-0 w-48 flex flex-col items-center justify-center p-6 glass-card rounded-xl hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <div className={`text-5xl mb-3 ${partner.color} transition-transform duration-300 hover:scale-110`}>
+                  <Icon className="w-12 h-12" strokeWidth={1.5} />
+                </div>
+                <p className="text-sm font-bold text-card-foreground text-center">
+                  {partner.name}
+                </p>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

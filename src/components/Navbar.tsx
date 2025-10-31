@@ -1,10 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -21,7 +38,7 @@ export const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-card/95 backdrop-blur-sm shadow-sm z-50 border-b border-border">
+    <nav ref={menuRef} className="fixed top-0 left-0 right-0 bg-card/95 backdrop-blur-sm shadow-sm z-50 border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo à esquerda */}
