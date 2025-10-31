@@ -23,7 +23,7 @@ export const Hero = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl">
           <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 animate-fade-in leading-tight">
-            Fabíola Corretora
+            Realizadora Planos de Saúde
           </h1>
           <p className="text-2xl md:text-3xl text-white/90 mb-12 animate-fade-in-delay-1 leading-relaxed">
             Seu cuidado com a saúde é nossa prioridade. Encontre o plano ideal para você e sua família com assessoria especializada e humanizada.

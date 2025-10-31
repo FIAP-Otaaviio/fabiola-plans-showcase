@@ -33,7 +33,7 @@ export const About = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-20">
           <h2 className="text-5xl md:text-6xl font-bold text-foreground mb-6 animate-fade-in">
-            Por que escolher a Fabíola Corretora?
+            Por que escolher a Realizadora?
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-delay-1">
             Comprometimento com sua saúde e bem-estar

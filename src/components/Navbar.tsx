@@ -29,7 +29,7 @@ export const Navbar = () => {
             onClick={() => scrollToSection("inicio")}
             className="text-2xl font-bold text-primary hover:opacity-80 transition-opacity"
           >
-            Fabíola
+            REALIZADORA
           </button>
 
           {/* Menu centralizado - Desktop */}
