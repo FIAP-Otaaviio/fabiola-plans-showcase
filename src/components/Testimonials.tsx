@@ -30,14 +30,14 @@ export const Testimonials = () => {
   const { elementRef, isVisible } = useScrollAnimation();
   
   return (
-    <section id="depoimentos" className="py-20 bg-gradient-to-b from-background to-muted/30">
+    <section id="depoimentos" className="py-32 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+        <div className="text-center mb-20">
+          <h2 className="text-5xl md:text-6xl font-bold text-foreground mb-6 animate-fade-in">
             Cases de Sucesso
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Histórias reais de quem transformou sua experiência com planos de saúde
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-delay-1">
+            Resultados reais que transformaram a saúde de nossos clientes
           </p>
         </div>
 

@@ -40,14 +40,14 @@ export const Services = () => {
   };
 
   return (
-    <section id="servicos" className="py-20 bg-gradient-to-b from-muted/30 to-background">
+    <section id="servicos" className="py-32 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+        <div className="text-center mb-20">
+          <h2 className="text-5xl md:text-6xl font-bold text-foreground mb-6 animate-fade-in">
             Planos de Saúde
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Trabalhamos com as principais operadoras do mercado para oferecer o plano ideal para você.
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-delay-1">
+            Encontre o plano ideal para suas necessidades
           </p>
         </div>
 
