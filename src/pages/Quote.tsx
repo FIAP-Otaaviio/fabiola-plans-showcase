@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/Navbar";
+import { Layout } from "@/components/Layout";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
