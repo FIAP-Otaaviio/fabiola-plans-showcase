@@ -177,10 +177,10 @@ Realizadora Assessoria de Negócios`;
   };
 
   return (
+    <Layout environment="saude">
     <div className="min-h-screen flex flex-col">
-      <Navbar />
 
-      <main className="flex-1 pt-16">
+      <main className="flex-1">
         <div className="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)]">
           {/* Imagem - 2/3 da página */}
           <div
