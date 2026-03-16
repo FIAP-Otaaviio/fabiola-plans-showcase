@@ -74,21 +74,21 @@ export const Layout = ({ children, environment }: LayoutProps) => {
         </nav>
       </header>
 
-      {/* Sidebar menu - floating overlay */}
+      {/* Floating horizontal menu */}
       <div className="fixed top-20 left-6 z-40 pointer-events-auto">
-        <nav className="flex flex-col gap-1">
+        <nav className="flex items-center gap-1 bg-card/60 backdrop-blur-xl border border-border/50 rounded-full px-2 py-1.5 shadow-[0_0_20px_-4px_hsl(var(--primary)/0.25)]">
           {environment === "saude" ? (
             saudeMenuItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors text-left px-2 py-1.5"
+                className="text-sm font-medium text-foreground/80 hover:text-primary-foreground hover:bg-primary/80 transition-all duration-200 px-4 py-1.5 rounded-full hover:shadow-[0_0_12px_-2px_hsl(var(--primary)/0.4)]"
               >
                 {item.label}
               </button>
             ))
           ) : (
-            <p className="text-sm text-muted-foreground px-2 py-1.5">
+            <p className="text-sm text-muted-foreground px-4 py-1.5">
               Em breve...
             </p>
           )}
