@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/Navbar";
+import { Layout } from "@/components/Layout";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { Services } from "@/components/Services";
@@ -10,9 +10,8 @@ import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 const Index = () => {
   return (
-    <div className="min-h-screen" id="inicio">
-      <Navbar />
-      <div className="pt-16">
+    <Layout environment="saude">
+      <div id="inicio">
         <Hero />
         <About />
         <Services />
@@ -22,7 +21,7 @@ const Index = () => {
         <Footer />
       </div>
       <WhatsAppButton />
-    </div>
+    </Layout>
   );
 };
 

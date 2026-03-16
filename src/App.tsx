@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Quote from "./pages/Quote";
 import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Imoveis from "./pages/Imoveis";
 
 const queryClient = new QueryClient();
 
@@ -19,8 +20,9 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/cotacao" element={<Quote />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/imoveis" element={<Imoveis />} />
           <Route path="/politica-privacidade" element={<PrivacyPolicy />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

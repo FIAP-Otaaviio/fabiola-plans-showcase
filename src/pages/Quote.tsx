@@ -336,7 +336,7 @@ Realizadora Assessoria de Negócios`;
                           id={item.key}
                           type="number"
                           min="0"
-                          value={formData[item.key as keyof typeof formData]}
+                          value={String(formData[item.key as keyof typeof formData])}
                           onChange={(e) =>
                             setFormData({
                               ...formData,
