@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, Info, HeartPulse, MessageSquareQuote, Phone, Building2, Menu, X } from "lucide-react";
 import { WelcomeModal } from "@/components/WelcomeModal";
 
 const saudeMenuItems = [
-  { label: "Início", id: "inicio", icon: Home },
-  { label: "Sobre", id: "sobre", icon: Info },
-  { label: "Planos", id: "servicos", icon: HeartPulse },
-  { label: "Cases", id: "depoimentos", icon: MessageSquareQuote },
-  { label: "Contato", id: "contato", icon: Phone },
+  { label: "Início", id: "inicio" },
+  { label: "Sobre", id: "sobre" },
+  { label: "Planos", id: "servicos" },
+  { label: "Cases", id: "depoimentos" },
+  { label: "Contato", id: "contato" },
 ];
 
 interface LayoutProps {
@@ -20,10 +19,8 @@ export const Layout = ({ children, environment }: LayoutProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(true);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
-    setMenuOpen(false);
     if (location.pathname !== "/") {
       navigate(`/#${id}`);
       return;
@@ -41,43 +38,35 @@ export const Layout = ({ children, environment }: LayoutProps) => {
 
   return (
     <div className="min-h-screen relative">
-      {/* Top bar */}
-      <header className="fixed top-0 left-0 right-0 z-50 h-14 bg-card/95 backdrop-blur-sm border-b border-border flex items-center px-4">
-        {/* Floating menu toggle */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="mr-3 p-2 rounded-md hover:bg-muted transition-colors text-foreground"
-          aria-label="Toggle menu"
-        >
-          {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
-
+      {/* Top bar - floating */}
+      <header className="fixed top-0 left-0 right-0 z-50 h-16 flex items-center px-6 pointer-events-none">
         {/* Logo */}
         <Link
           to="/"
-          className="text-xl font-bold text-primary hover:opacity-80 transition-opacity"
+          className="text-2xl font-black text-foreground hover:opacity-80 transition-opacity pointer-events-auto"
         >
           REALIZADORA
         </Link>
 
         {/* Environment switcher */}
-        <nav className="flex items-center gap-1 ml-auto">
+        <nav className="flex items-center gap-2 ml-12 pointer-events-auto">
           <Link
             to="/"
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`text-lg font-semibold transition-colors ${
               environment === "saude"
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             Saúde
           </Link>
+          <span className="text-muted-foreground text-lg">|</span>
           <Link
             to="/imoveis"
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`text-lg font-semibold transition-colors ${
               environment === "imoveis"
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             Imóveis
@@ -85,50 +74,29 @@ export const Layout = ({ children, environment }: LayoutProps) => {
         </nav>
       </header>
 
-      {/* Floating sidebar overlay */}
-      {menuOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[2px]"
-          onClick={() => setMenuOpen(false)}
-        />
-      )}
-
-      {/* Floating sidebar menu */}
-      <div
-        className={`fixed top-16 left-4 z-50 w-56 bg-card/95 backdrop-blur-md rounded-xl shadow-xl border border-border transition-all duration-300 ${
-          menuOpen
-            ? "opacity-100 translate-y-0 scale-100"
-            : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
-        }`}
-      >
-        <div className="p-3">
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-2">
-            {environment === "saude" ? "Saúde" : "Imóveis"}
-          </p>
-          <nav className="flex flex-col gap-1">
-            {environment === "saude" ? (
-              saudeMenuItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-primary/10 hover:text-primary transition-colors text-left"
-                >
-                  <item.icon className="h-4 w-4 shrink-0" />
-                  {item.label}
-                </button>
-              ))
-            ) : (
-              <div className="flex items-center gap-3 px-3 py-2.5 text-sm text-muted-foreground">
-                <Building2 className="h-4 w-4" />
-                Em breve...
-              </div>
-            )}
-          </nav>
-        </div>
+      {/* Sidebar menu - floating overlay */}
+      <div className="fixed top-20 left-6 z-40 pointer-events-auto">
+        <nav className="flex flex-col gap-1">
+          {environment === "saude" ? (
+            saudeMenuItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors text-left px-2 py-1.5"
+              >
+                {item.label}
+              </button>
+            ))
+          ) : (
+            <p className="text-sm text-muted-foreground px-2 py-1.5">
+              Em breve...
+            </p>
+          )}
+        </nav>
       </div>
 
       {/* Content */}
-      <main className="pt-14">
+      <main>
         {children}
       </main>
 
