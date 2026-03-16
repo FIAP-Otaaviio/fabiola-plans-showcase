@@ -415,5 +415,6 @@ Realizadora Assessoria de Negócios`;
 
       <Footer />
     </div>
+    </Layout>
   );
 }
