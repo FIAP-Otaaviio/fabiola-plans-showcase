@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/Navbar";
+import { Layout } from "@/components/Layout";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -177,10 +177,10 @@ Realizadora Assessoria de Negócios`;
   };
 
   return (
+    <Layout environment="saude">
     <div className="min-h-screen flex flex-col">
-      <Navbar />
 
-      <main className="flex-1 pt-16">
+      <main className="flex-1">
         <div className="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)]">
           {/* Imagem - 2/3 da página */}
           <div
@@ -336,7 +336,7 @@ Realizadora Assessoria de Negócios`;
                           id={item.key}
                           type="number"
                           min="0"
-                          value={formData[item.key as keyof typeof formData]}
+                          value={String(formData[item.key as keyof typeof formData])}
                           onChange={(e) =>
                             setFormData({
                               ...formData,
@@ -415,5 +415,6 @@ Realizadora Assessoria de Negócios`;
 
       <Footer />
     </div>
+    </Layout>
   );
 }
