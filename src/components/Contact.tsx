@@ -3,15 +3,20 @@ import { Mail, Phone, MessageCircle } from "lucide-react";
 
 export const Contact = () => {
   const handleWhatsApp = () => {
-    window.open("https://wa.me/5511987654321", "_blank");
+    const mensagem =
+      "Olá! Gostaria de saber mais sobre os planos de saúde da Realizadora.";
+    window.open(
+      `https://wa.me/5511947451553?text=${encodeURIComponent(mensagem)}`,
+      "_blank",
+    );
   };
 
   const handleEmail = () => {
-    window.location.href = "mailto:contato@fabiolacorretora.com.br";
+    window.location.href = "mailto:realizadora01@gmail.com";
   };
 
   const handlePhone = () => {
-    window.location.href = "tel:+5511987654321";
+    window.location.href = "tel:+5511947461553";
   };
 
   return (
@@ -39,7 +44,7 @@ export const Contact = () => {
             <MessageCircle className="h-12 w-12 text-primary" />
             <div>
               <h3 className="text-xl font-semibold mb-1">WhatsApp</h3>
-              <p className="text-sm text-muted-foreground">(11) 98765-4321</p>
+              <p className="text-sm text-muted-foreground">(11) 94745-1553</p>
             </div>
           </Button>
 
@@ -52,7 +57,7 @@ export const Contact = () => {
             <Phone className="h-12 w-12 text-primary" />
             <div>
               <h3 className="text-xl font-semibold mb-1">Telefone</h3>
-              <p className="text-sm text-muted-foreground">(11) 98765-4321</p>
+              <p className="text-sm text-muted-foreground">(11) 94745-1553</p>
             </div>
           </Button>
 
@@ -65,7 +70,9 @@ export const Contact = () => {
             <Mail className="h-12 w-12 text-primary" />
             <div>
               <h3 className="text-xl font-semibold mb-1">E-mail</h3>
-              <p className="text-sm text-muted-foreground">contato@fabiolacorretora.com.br</p>
+              <p className="text-sm text-muted-foreground">
+                realizadora01@gmail.com
+              </p>
             </div>
           </Button>
         </div>

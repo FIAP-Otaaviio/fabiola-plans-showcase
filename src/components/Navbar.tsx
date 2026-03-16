@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -15,17 +17,37 @@ export const Navbar = () => {
     };
 
     if (isMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMenuOpen]);
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: "smooth" });
+    // Se não estamos na home, navegar para home com hash
+    if (location.pathname !== "/") {
+      navigate(`/#${id}`);
+      setIsMenuOpen(false);
+      return;
+    }
+
+    // Se estamos na home, fazer scroll suave
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      element?.scrollIntoView({ behavior: "smooth" });
+    }, 0);
+    setIsMenuOpen(false);
+  };
+
+  const goToHome = () => {
+    if (location.pathname !== "/") {
+      navigate("/");
+    } else {
+      const element = document.getElementById("inicio");
+      element?.scrollIntoView({ behavior: "smooth" });
+    }
     setIsMenuOpen(false);
   };
 
@@ -38,12 +60,15 @@ export const Navbar = () => {
   ];
 
   return (
-    <nav ref={menuRef} className="fixed top-0 left-0 right-0 bg-card/95 backdrop-blur-sm shadow-sm z-50 border-b border-border">
+    <nav
+      ref={menuRef}
+      className="fixed top-0 left-0 right-0 bg-card/95 backdrop-blur-sm shadow-sm z-50 border-b border-border"
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo à esquerda */}
-          <button 
-            onClick={() => scrollToSection("inicio")}
+          <button
+            onClick={goToHome}
             className="text-2xl font-bold text-primary hover:opacity-80 transition-opacity"
           >
             REALIZADORA
@@ -65,9 +90,7 @@ export const Navbar = () => {
           {/* Botão de cotação à direita - Desktop */}
           <div className="hidden md:block">
             <Link to="/cotacao">
-              <Button>
-                Solicitar Cotação
-              </Button>
+              <Button>Solicitar Cotação</Button>
             </Link>
           </div>
 
@@ -76,7 +99,11 @@ export const Navbar = () => {
             className="md:hidden text-foreground"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
           </button>
         </div>
 
@@ -94,9 +121,7 @@ export const Navbar = () => {
                 </button>
               ))}
               <Link to="/cotacao" onClick={() => setIsMenuOpen(false)}>
-                <Button className="w-full">
-                  Solicitar Cotação
-                </Button>
+                <Button className="w-full">Solicitar Cotação</Button>
               </Link>
             </div>
           </div>
